@@ -86,8 +86,7 @@ function buy(id) {
   if (productIsPresent) {
     productInCart.quantity += 1;
   } else {
-    const productInCart = { ...updateProduct, quantity: 1 };
-    cart.push(productInCart);
+    cart.push({ ...updateProduct, quantity: 1 });
   }
 
   function findProductInCart(idToFind) {
@@ -96,22 +95,84 @@ function buy(id) {
 }
 
 // Exercise 2
-function cleanCart() {}
+function cleanCart() {
+    cart.length = 0;
+    total = 0;
+}
 
 // Exercise 3
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
+  let total = 0;
+  for( productCart of cart) {
+    total += productCart.quantity * productCart.price;
+  }
+  return total;
 }
 
 // Exercise 4
 function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
+  for( let cartProduct of cart) {
+    const hasOffer = cartProduct.hasOwnProperty("offer");
+    if(hasOffer) {
+      const isOfferApplicable = cartProduct.quantity >= cartProduct.offer.number;
+      if (isOfferApplicable) {
+        cartProduct.subtotalWithDiscount = calculateSubtotalWithDiscount(cartProduct);
+      } else {
+        if (cartProduct.hasOwnProperty("subtotalWithDiscount")) {
+          cartProduct.subtotalWithDiscount = 0;
+        }
+      }
+    }
+  }
+}
+
+function calculateSubtotalWithDiscount (cartProduct) {
+  let totalProductPrice =  cartProduct.quantity * cart.price;
+  let totalProductDiscount = cartProduct.quantity * (cartProduct.offer.percent / 100);
+  return (totalProductPrice - totalProductDiscount);
 }
 
 // Exercise 5
 function printCart() {
-  // Fill the shopping cart modal manipulating the shopping cart dom
+  let rowsToDisplay = [];
+  for(cartProduct of cart) {
+    rowsToDisplay.push(createCartRow(cartProduct));
+  }
+  let productList = document.getElementById("cart_list");
+  productList.innerHTML= '';
+  productList.append(...rowsToDisplay);
 }
+
+function createCartRow(cartProduct) {
+  let row = document.createElement('tr');
+  let rowHeader = document.createElement('th');
+  rowHeader.setAttribute('scope','row');
+  rowHeader.textContent = cartProduct.name;
+
+  row.append(rowHeader);
+
+  let price = createDataCellWithText(`$${cartProduct.price}`);
+  let quantity = createDataCellWithText(cartProduct.quantity);
+  let totalLine = cartProduct.hasOwnProperty("subtotalWithDiscount")
+    ? cartProduct.subtotalWithDiscount
+    : cartProduct.price * cartProduct.quantity;
+
+  let totalWithDiscount = createDataCellWithText(`$${totalLine}`);
+  row.append(rowHeader, price, quantity, totalWithDiscount);
+  
+  return row;
+
+}
+
+function createDataCellWithText(text) {
+  let tdElement = document.createElement('td');
+  text = text ?? 0.00;
+  tdElement.textContent = text;
+  return tdElement;
+}
+
 
 // ** Nivell II **
 
