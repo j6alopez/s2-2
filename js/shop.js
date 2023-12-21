@@ -85,6 +85,8 @@ var products = [
 var cart = [];
 
 var total = 0;
+var totalCartQuantity = 0;
+
 
 // Exercise 1
 function buy(id) {
@@ -101,12 +103,21 @@ function buy(id) {
     cart.push({ ...updateProduct, quantity: 1 });
   }
 
+  totalCartQuantity += 1;
+  updateCountProduct();
+
 }
 
 // Exercise 2
 function cleanCart() {
   cart.length = 0;
   total = 0;
+  totalCartQuantity = 0;
+
+  document.getElementById("cart_list").innerHTML = '';
+  document.getElementById('total_price').textContent = 0;
+
+  updateCountProduct();
 }
 
 // Exercise 3
@@ -129,11 +140,9 @@ function applyPromotionsCart() {
   for (let cartProduct of cart) {
     const hasOffer = cartProduct.hasOwnProperty("offer");
     if (hasOffer) {
-      const isOfferApplicable =
-        cartProduct.quantity >= cartProduct.offer.number;
+      const isOfferApplicable = cartProduct.quantity >= cartProduct.offer.number;
       if (isOfferApplicable) {
-        cartProduct.subtotalWithDiscount =
-          calculateSubtotalWithDiscount(cartProduct);
+        cartProduct.subtotalWithDiscount = calculateSubtotalWithDiscount(cartProduct);
       } else {
         if (cartProduct.hasOwnProperty("subtotalWithDiscount")) {
           cartProduct.subtotalWithDiscount = 0;
@@ -146,6 +155,7 @@ function applyPromotionsCart() {
 function calculateSubtotalWithDiscount(cartProduct) {
   let totalProductPrice = cartProduct.quantity * cartProduct.price;
   let totalProductDiscount = totalProductPrice * (cartProduct.offer.percent / 100);
+
   return totalProductPrice - totalProductDiscount;
 }
 
@@ -155,7 +165,7 @@ function printCart() {
   let productLines = [];
 
   cart.forEach(cartProduct => {
-    const lineProduct = createCartRow(cartProduct);
+    const lineProduct = createLine(cartProduct);
     productLines.push(lineProduct);
   })
 
@@ -168,7 +178,7 @@ function printCart() {
 
 }
 
-function createCartRow(cartProduct) {
+function createLine(cartProduct) {
 
   let totalLine = cartProduct.hasOwnProperty("subtotalWithDiscount")
     ? cartProduct.subtotalWithDiscount
@@ -179,7 +189,7 @@ function createCartRow(cartProduct) {
   const totalWithDiscount = createDataCellWithText(`$${totalLine}`);
 
   let rowHeader = document.createElement("th");
-  rowHeader.setAttribute("scope", "row");
+  rowHeader.scope = 'row';
   rowHeader.textContent = cartProduct.name;
 
   let row = document.createElement("tr");
@@ -219,4 +229,8 @@ function loadProducts(products) {
 
 function findProductInCart(idToFind) {
   return cart.find((product) => product.id === idToFind);
+}
+
+function updateCountProduct() {
+  document.getElementById('count_product').textContent = totalCartQuantity;
 }

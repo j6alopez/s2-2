@@ -9,23 +9,8 @@ function validate() {
   var fAddress = document.getElementById("fAddress");
   var fPhone = document.getElementById("fPhone");
 
-  // Get the error elements
-  var errorName = document.getElementById("errorName");
-  var errorLastN = document.getElementById("errorLastN");
-  var errorEmail = document.getElementById("errorEmail");
-  var errorPassword = document.getElementById("errorPassword");
-  var errorAddress = document.getElementById("errorAddress");
-  var errorPhone = document.getElementById("errorPhone");
 
   const inputFields = [fName, fLastN, fEmail, fPassword, fAddress, fPhone];
-  const errors = [
-    errorName,
-    errorLastN,
-    errorEmail,
-    errorPassword,
-    errorAddress,
-    errorPhone,
-  ];
 
   let form = document.querySelector(".form.needs-validation");
 
@@ -34,21 +19,21 @@ function validate() {
 
     inputFields.forEach((field, index) => {
       const hasInvalidClass = field.classList.contains('is-invalid');
-      const hasMinimumLength = hasValidLength(field.value);
-
-      if (hasMinimumLength) {
+      let hasPassedValidation = hasValidLength(field.value);
+      
+      if (hasPassedValidation) {
         if (hasInvalidClass) {
-          field.classList.remove('is-invalid');
+          field.classList.remove('is-invalid');          
         }
       } else {
-        if (!hasInvalidClass) {
+        if (!hasInvalidClass)  {
           field.classList.add('is-invalid');
-          return;
+          return;          
         }
       }
-      
+
       const fieldValue = field.value;
-      let hasPassedValidation = false;
+      hasPassedValidation = false;
 
       switch (field.id) {
         case 'fName':
@@ -74,24 +59,7 @@ function validate() {
 
     });
   });
-
-  // Validate fields entered by the user: name, phone, password, and email
-
-  // if (fName.value == "") {
-  //   error++;
-  // }
-
-  // if (fEmail.value == "") {
-  //   error++;
-  // }
-
-  // if (error > 0) {
-  //   alert("Error");
-  // } else {
-  //   alert("OK");
-  // }
 }
-
 function hasValidLength(fieldValue) {
   return fieldValue.length >= 3 && fieldValue !== "";
 }
@@ -123,4 +91,3 @@ function hasValidPassword(fieldValue) {
 
   return containsLetters && containsNumbers;
 }
-
