@@ -105,7 +105,6 @@ function buy(id) {
 
   totalCartQuantity += 1;
   updateCountProduct();
-
 }
 
 // Exercise 2
@@ -180,9 +179,13 @@ function printCart() {
 
 function createLine(cartProduct) {
 
-  let totalLine = cartProduct.hasOwnProperty("subtotalWithDiscount")
-    ? cartProduct.subtotalWithDiscount
-    : cartProduct.price * cartProduct.quantity;
+  const applySubtotalWithDiscount =
+    cartProduct.hasOwnProperty("subtotalWithDiscount") &&
+    cartProduct.subtotalWithDiscount > 0;
+
+    let totalLine = applySubtotalWithDiscount
+      ? cartProduct.subtotalWithDiscount
+      : cartProduct.price * cartProduct.quantity;
   
   const price = createDataCellWithText(`$${cartProduct.price}`);
   const quantity = createDataCellWithText(cartProduct.quantity);
@@ -209,7 +212,21 @@ function createDataCellWithText(text) {
 // ** Nivell II **
 
 // Exercise 7
-function removeFromCart(id) {}
+function removeFromCart(id) {
+  cartProduct = cart.find(cartProduct => cartProduct.id === id);
+  if (cartProduct === undefined) {
+    return;
+  }
+  let removeProduct = cartProduct.quantity === 1;
+  if (removeProduct) {
+    let index = cart.indexOf(cartProduct);
+    cart.splice(index, 1);
+  } else {
+    cartProduct.quantity -= 1;
+  }
+  totalCartQuantity -= 1;
+  updateCountProduct();
+}
 
 function open_modal() {
   printCart();
