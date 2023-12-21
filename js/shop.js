@@ -1,4 +1,16 @@
 // If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
+// var products = [];
+// loadProducts(products);
+// function loadProducts(products) {
+//   fetch('./../data/products.json')
+//     .then((response) => {
+//       return response.json();
+//     })
+//     .then((data) => {
+//       data.forEach((product) => products.push(product));
+//     });
+// }
+
 var products = [
   {
     id: 1,
@@ -89,23 +101,24 @@ function buy(id) {
     cart.push({ ...updateProduct, quantity: 1 });
   }
 
-  function findProductInCart(idToFind) {
-    return cart.find((product) => product.id === idToFind);
-  }
 }
 
 // Exercise 2
 function cleanCart() {
-    cart.length = 0;
-    total = 0;
+  cart.length = 0;
+  total = 0;
 }
 
 // Exercise 3
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
   let total = 0;
-  for( productCart of cart) {
-    total += productCart.quantity * productCart.price;
+  for (const cartProduct of cart) {
+    let linePrice = cartProduct.hasOwnProperty("subtotalWithDiscount")
+      ? cartProduct.subtotalWithDiscount
+      : cartProduct.quantity * cartProduct.price;
+
+    total += linePrice;
   }
   return total;
 }
@@ -113,12 +126,14 @@ function calculateTotal() {
 // Exercise 4
 function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
-  for( let cartProduct of cart) {
+  for (let cartProduct of cart) {
     const hasOffer = cartProduct.hasOwnProperty("offer");
-    if(hasOffer) {
-      const isOfferApplicable = cartProduct.quantity >= cartProduct.offer.number;
+    if (hasOffer) {
+      const isOfferApplicable =
+        cartProduct.quantity >= cartProduct.offer.number;
       if (isOfferApplicable) {
-        cartProduct.subtotalWithDiscount = calculateSubtotalWithDiscount(cartProduct);
+        cartProduct.subtotalWithDiscount =
+          calculateSubtotalWithDiscount(cartProduct);
       } else {
         if (cartProduct.hasOwnProperty("subtotalWithDiscount")) {
           cartProduct.subtotalWithDiscount = 0;
@@ -128,51 +143,58 @@ function applyPromotionsCart() {
   }
 }
 
-function calculateSubtotalWithDiscount (cartProduct) {
-  let totalProductPrice =  cartProduct.quantity * cart.price;
-  let totalProductDiscount = cartProduct.quantity * (cartProduct.offer.percent / 100);
-  return (totalProductPrice - totalProductDiscount);
+function calculateSubtotalWithDiscount(cartProduct) {
+  let totalProductPrice = cartProduct.quantity * cartProduct.price;
+  let totalProductDiscount = totalProductPrice * (cartProduct.offer.percent / 100);
+  return totalProductPrice - totalProductDiscount;
 }
 
 // Exercise 5
 function printCart() {
-  let rowsToDisplay = [];
-  for(cartProduct of cart) {
-    rowsToDisplay.push(createCartRow(cartProduct));
-  }
+  applyPromotionsCart();
+  let productLines = [];
+
+  cart.forEach(cartProduct => {
+    const lineProduct = createCartRow(cartProduct);
+    productLines.push(lineProduct);
+  })
+
   let productList = document.getElementById("cart_list");
-  productList.innerHTML= '';
-  productList.append(...rowsToDisplay);
+  productList.innerHTML = '';
+  productList.append(...productLines);
+
+  let totalPrice = document.getElementById('total_price');
+  totalPrice.textContent = calculateTotal();
+
 }
 
 function createCartRow(cartProduct) {
-  let row = document.createElement('tr');
-  let rowHeader = document.createElement('th');
-  rowHeader.setAttribute('scope','row');
-  rowHeader.textContent = cartProduct.name;
 
-  row.append(rowHeader);
-
-  let price = createDataCellWithText(`$${cartProduct.price}`);
-  let quantity = createDataCellWithText(cartProduct.quantity);
   let totalLine = cartProduct.hasOwnProperty("subtotalWithDiscount")
     ? cartProduct.subtotalWithDiscount
     : cartProduct.price * cartProduct.quantity;
-
-  let totalWithDiscount = createDataCellWithText(`$${totalLine}`);
-  row.append(rowHeader, price, quantity, totalWithDiscount);
   
-  return row;
+  const price = createDataCellWithText(`$${cartProduct.price}`);
+  const quantity = createDataCellWithText(cartProduct.quantity);
+  const totalWithDiscount = createDataCellWithText(`$${totalLine}`);
 
+  let rowHeader = document.createElement("th");
+  rowHeader.setAttribute("scope", "row");
+  rowHeader.textContent = cartProduct.name;
+
+  let row = document.createElement("tr");
+  row.append(rowHeader, price, quantity, totalWithDiscount);
+
+  return row;
 }
 
 function createDataCellWithText(text) {
-  let tdElement = document.createElement('td');
-  text = text ?? 0.00;
+  let tdElement = document.createElement("td");
+  text = text ?? 0.0;
   tdElement.textContent = text;
+
   return tdElement;
 }
-
 
 // ** Nivell II **
 
@@ -181,4 +203,20 @@ function removeFromCart(id) {}
 
 function open_modal() {
   printCart();
+}
+
+//Custom functions
+function loadProducts(products) {
+  fetch('./../data/products.json')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((product) => products.push(product));
+    });
+
+}
+
+function findProductInCart(idToFind) {
+  return cart.find((product) => product.id === idToFind);
 }
