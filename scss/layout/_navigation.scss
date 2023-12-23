@@ -1,0 +1,36 @@
+#navbar-example2 .navbar-brand,
+#navbar .nav-link {
+  @include media-breakpoint-up(lg) {
+    border: 0.125rem transparent solid;
+    transition: border 0.3s ease-in-out;
+    &:hover {
+      border-color: black;
+      background-color: $mustard-color;
+      transform: scale(1.1);
+    }
+  }
+}
+
+@mixin navbar-footer-items {
+    border: 0.125rem transparent solid;
+    transition: border 0.3s ease-in-out;
+    &:hover {
+      border-color: white;
+      transform: scale(1.1);
+  }
+}
+
+#navbar-footer {
+  .navbar-brand,
+  .nav-link{
+    @include media-breakpoint-up(lg) {
+      @include navbar-footer-items;
+    }
+  }
+  img {
+    @include media-breakpoint-up(lg) {
+        @include navbar-footer-items;
+        border: 0px;
+      }
+  }
+}

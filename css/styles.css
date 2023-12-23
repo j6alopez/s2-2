@@ -4295,9 +4295,9 @@ textarea.form-control-lg {
   --bs-card-subtitle-color: ;
   --bs-card-border-width: var(--bs-border-width);
   --bs-card-border-color: var(--bs-border-color-translucent);
-  --bs-card-border-radius: var(--bs-border-radius);
+  --bs-card-border-radius: 1rem;
   --bs-card-box-shadow: ;
-  --bs-card-inner-border-radius: calc(var(--bs-border-radius) - (var(--bs-border-width)));
+  --bs-card-inner-border-radius: calc(1rem - (var(--bs-border-width)));
   --bs-card-cap-padding-y: 0.5rem;
   --bs-card-cap-padding-x: 1rem;
   --bs-card-cap-bg: rgba(var(--bs-body-color-rgb), 0.03);
@@ -11854,4 +11854,50 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+@media (min-width: 992px) {
+  #navbar-example2 .navbar-brand,
+  #navbar .nav-link {
+    border: 0.125rem transparent solid;
+    transition: border 0.3s ease-in-out;
+  }
+  #navbar-example2 .navbar-brand:hover,
+  #navbar .nav-link:hover {
+    border-color: black;
+    background-color: #DAF7A6;
+    transform: scale(1.1);
+  }
+}
+
+@media (min-width: 992px) {
+  #navbar-footer .navbar-brand,
+  #navbar-footer .nav-link {
+    border: 0.125rem transparent solid;
+    transition: border 0.3s ease-in-out;
+  }
+  #navbar-footer .navbar-brand:hover,
+  #navbar-footer .nav-link:hover {
+    border-color: white;
+    transform: scale(1.1);
+  }
+}
+@media (min-width: 992px) {
+  #navbar-footer img {
+    border: 0.125rem transparent solid;
+    transition: border 0.3s ease-in-out;
+    border: 0px;
+  }
+  #navbar-footer img:hover {
+    border-color: white;
+    transform: scale(1.1);
+  }
+}
+
+.card {
+  transition: all 0.3s;
+}
+.card:hover {
+  transform: scale(1.1);
+  background-color: rgba(218, 247, 166, 0.24);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }/*# sourceMappingURL=styles.css.map */

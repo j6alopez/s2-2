@@ -1,1 +1,7 @@
-@import '../node_modules/bootstrap/scss/bootstrap.scss'
+@import './sass-utils/variables';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+//Customizations
+@import './layout/navigation';
+@import './components/cards';
+@import './base/images';
