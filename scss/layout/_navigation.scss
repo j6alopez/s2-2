@@ -1,36 +1,30 @@
+@mixin navbar-footer-items($border-color) {
+  border: 0.125rem transparent solid;
+  transition: border 0.3s ease-in-out;
+  &:hover {
+    border-color: $border-color;
+    transform: scale(1.1);
+  }
+}
+
 #navbar-example2 .navbar-brand,
 #navbar .nav-link {
   @include media-breakpoint-up(lg) {
     border: 0.125rem transparent solid;
     transition: border 0.3s ease-in-out;
     &:hover {
-      border-color: black;
+      border-color: rgba(black, 0.5);
       background-color: $mustard-color;
       transform: scale(1.1);
     }
   }
 }
 
-@mixin navbar-footer-items {
-    border: 0.125rem transparent solid;
-    transition: border 0.3s ease-in-out;
-    &:hover {
-      border-color: white;
-      transform: scale(1.1);
-  }
-}
-
 #navbar-footer {
   .navbar-brand,
-  .nav-link{
+  .nav-link {
     @include media-breakpoint-up(lg) {
-      @include navbar-footer-items;
+      @include navbar-footer-items($mustard-semi-transparent);
     }
-  }
-  img {
-    @include media-breakpoint-up(lg) {
-        @include navbar-footer-items;
-        border: 0px;
-      }
   }
 }

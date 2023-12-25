@@ -11855,6 +11855,14 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+header h1, header .h1 {
+  color: #DAF7A6;
+}
+
+.social-media-icon:hover {
+  background: rgba(218, 247, 166, 0.5);
+}
+
 @media (min-width: 992px) {
   #navbar-example2 .navbar-brand,
   #navbar .nav-link {
@@ -11863,7 +11871,7 @@ textarea.form-control-lg {
   }
   #navbar-example2 .navbar-brand:hover,
   #navbar .nav-link:hover {
-    border-color: black;
+    border-color: rgba(0, 0, 0, 0.5);
     background-color: #DAF7A6;
     transform: scale(1.1);
   }
@@ -11877,18 +11885,7 @@ textarea.form-control-lg {
   }
   #navbar-footer .navbar-brand:hover,
   #navbar-footer .nav-link:hover {
-    border-color: white;
-    transform: scale(1.1);
-  }
-}
-@media (min-width: 992px) {
-  #navbar-footer img {
-    border: 0.125rem transparent solid;
-    transition: border 0.3s ease-in-out;
-    border: 0px;
-  }
-  #navbar-footer img:hover {
-    border-color: white;
+    border-color: rgba(218, 247, 166, 0.5);
     transform: scale(1.1);
   }
 }
@@ -11897,7 +11894,18 @@ textarea.form-control-lg {
   transition: all 0.3s;
 }
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   background-color: rgba(218, 247, 166, 0.24);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.card:hover h5, .card:hover .h5 {
+  font-size: 1.3rem;
+}
+
+.btn.btn-outline-dark:hover {
+  color: #DAF7A6 !important;
+}
+.btn.btn-outline-dark:hover #count_product {
+  background-color: #DAF7A6 !important;
+  color: black !important;
 }/*# sourceMappingURL=styles.css.map */

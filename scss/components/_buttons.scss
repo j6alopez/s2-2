@@ -1,0 +1,9 @@
+.btn.btn-outline-dark {
+    &:hover {
+        color: $mustard-color !important;
+        #count_product {
+            background-color: $mustard-color !important;
+            color: black !important;
+        }
+    }
+}
